@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringSocialApplication<spring-social>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.example.springsocial.SpringSocialApplication",
+            "projectName": "spring-social",
+            "args": ""
+        }
+    ]
+}
