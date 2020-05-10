@@ -1,0 +1,89 @@
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">{{ modalData.title }}</h5>
+                <button type="button" class="close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="verifyEmailForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="email" 
+                                        class="form-control" 
+                                        formControlName="email"
+                                        placeholder="Enter registered email id">
+                                <span class="text-danger"
+                                    *ngIf="verifyEmailFormControl.email.touched && verifyEmailFormControl.email.errors?.required">
+                                    Email is required
+                                </span>
+                                <span class="text-danger"
+                                    *ngIf="verifyEmailFormControl.email.touched && verifyEmailFormControl.email.errors?.email">
+                                    Enter a valid email address
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row mb-3 px-3" *ngIf="modalData.type=='verify'">
+                                <button type="submit" 
+                                        [disabled]="!verifyEmailForm.valid"
+                                        class="btn btn-primary text-center"> {{modalData.btn}}
+                                </button>
+                            </div>
+                            <div class="row mb-3 px-3" *ngIf="modalData.type=='reset'">
+                                <button type="submit" 
+                                        [disabled]="!verifyEmailForm.valid"
+                                        class="btn btn-primary text-center"> {{modalData.btn}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form [formGroup]="otpForm" (ngSubmit)="onOTPSubmit()" *ngIf="displayForm && modalData.type=='reset'">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="number" 
+                                        class="form-control" 
+                                        formControlName="otpNo"
+                                        placeholder="Enter six digit OTP">
+                                <span class="text-danger"
+                                    *ngIf="otpFormControl.otpNo.touched && otpFormControl.otpNo.errors?.required">
+                                    Enter OTP
+                                </span>
+                                <span class="text-danger"
+                                    *ngIf="otpFormControl.otpNo.touched && otpFormControl.otpNo.errors?.minlength">
+                                    OTP must be of six digits
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row mb-3 px-3" *ngIf="modalData.type=='reset'">
+                                <button type="submit" 
+                                        [disabled]="!otpForm.valid"
+                                        class="btn btn-primary text-center"> Submit OTP
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text-danger" *ngIf="errorMsg">
+                        {{ errorMsg }}
+                    </span>
+                    <span class="text-success" *ngIf="successMsg">
+                        {{ successMsg }}
+                    </span>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" 
+                        class="btn btn-secondary btn-sm" 
+                        (click)="closeModal()">Close</button>
+                <!-- <button type="button" class="btn btn-primary" (click)="sendLink()">Get verification link </button> -->
+            </div>
+        </div>
+    </div>
+</div>

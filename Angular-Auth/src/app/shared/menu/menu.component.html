@@ -1,0 +1,45 @@
+<!-- <header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div><a [routerLink]="['/home']" class="navbar-brand"> Auth App </a></div>
+        <ul class="navbar-nav">
+            <li><a [routerLink]="['/home']" class="nav-link">Home</a></li>
+            <li><a [routerLink]="['subjects']" class="nav-link">Subjects</a></li>
+        </ul>
+
+        <ul class="navbar-nav navbar-collapse justify-content-end">
+            <li><a *ngIf="!oauthService.isUserLoggedIn()" routerLink="/login" class="nav-link">login</a></li>
+            <li><a *ngIf="!oauthService.isUserLoggedIn()" routerLink="/signup" class="nav-link">Signup</a></li>
+            <li><a *ngIf="oauthService.isUserLoggedIn()" 
+                    [routerLink]="['profile']" 
+                    class="nav-link"> profile
+                </a>
+            </li>
+            <li><a *ngIf="oauthService.isUserLoggedIn()" routerLink="/logout" class="nav-link">logout</a></li>
+        </ul>
+    </nav>
+</header> -->
+<!-- Nav menu with user information -->
+<header>
+    <nav class="navbar navbar-expand-xl navbar-light bg-light navbar-static-top">
+        <a class="navbar-brand" [routerLink]="['/home']">Navbar</a>
+        <ul class="navbar-nav">
+            <li><a [routerLink]="['/home']" class="nav-link">Home</a></li>
+            <li><a [routerLink]="['subjects']" class="nav-link">Subjects</a></li>
+        </ul>
+        <div class="dropdown pmd-dropdown pmd-user-info ml-auto">
+            <a href="javascript:void(0);" class="btn-user dropdown-toggle media align-items-center"
+                data-toggle="dropdown" data-sidebar="true" aria-expanded="false">
+                <img class="mr-2 rounded-circle" *ngIf="user.imageUrl" [src]="user.imageUrl" width="40"
+                    height="40" alt="avatar">
+                <div class="media-body" *ngIf="!user.imageUrl">
+                    {{ user.name }}
+                </div>
+                <i class="material-icons md-light ml-2 pmd-sm"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <a class="dropdown-item" [routerLink]="['profile']">Profile</a>
+                <a class="dropdown-item" [routerLink]="['/logout']">Logout</a>
+            </ul>
+        </div>
+    </nav>
+</header>

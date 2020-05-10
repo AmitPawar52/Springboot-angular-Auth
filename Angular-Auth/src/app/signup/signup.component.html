@@ -1,0 +1,137 @@
+<div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+    <div class="card card0 border-0">
+        <div class="row d-flex">
+            <div class="col-lg-6">
+                <div class="card1 pb-5">
+                    <div class="row"> <img src="https://i.imgur.com/CXQmsmF.png" class="logo"> </div>
+                    <div class="row px-3 justify-content-center mt-4 mb-5 border-line"> <img
+                            src="https://i.imgur.com/uNGdWHi.png" class="image"> </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card2 card border-0 px-4 py-5">
+                    <div class="row mb-4 px-3">
+                        <h6 class="mb-0 mr-4 mt-2">Sign in with</h6>
+
+                        <div class="facebook text-center mr-3" (click)="fbRedirect()">
+                            <div class="fa fa-facebook"></div>
+                        </div>
+                        <div class="twitter text-center mr-3" (click)="fbRedirect()">
+                            <div class="fa fa-twitter"></div>
+                        </div>
+                        <div class="linkedin text-center mr-3" (click)="fbRedirect()">
+                            <div class="fa fa-linkedin"></div>
+                        </div>
+                        <div class="twitter text-center mr-3" (click)="googleRedirect()">
+                            <div class="fa fa-google"></div>
+                        </div>
+                        <div class="linkedin text-center mr-3" (click)="fbRedirect()">
+                            <div class="fa fa-github"></div>
+                        </div>
+                    </div>
+                    <div class="row px-3 mb-4">
+                        <div class="line"></div> <small class="or text-center">SignUp</small>
+                        <div class="line"></div>
+                    </div>
+
+                    <span class="text-danger errorMsg" *ngIf="errorMessage">
+                        {{ errorMessage }}
+                    </span>
+                    
+                    <!-- SIGN UP FORM -->
+
+                    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Full Name</h6>
+                            </label>
+                            <input class="form-control" type="text" formControlName="name"
+                                placeholder="Enter full name">
+                            <span class="text-danger"
+                                *ngIf="(signupFormControl.name.touched || submitted) && signupFormControl.name.errors?.required">
+                                Name is required
+                            </span>
+                            <span class="text-danger"
+                                *ngIf="signupFormControl.name.touched && signupFormControl.name.errors?.minlength">
+                                Name must contain minimun 4 characters
+                            </span>
+                            <span class="text-danger"
+                                *ngIf="signupFormControl.name.touched && signupFormControl.name.errors?.maxlength">
+                                Name cannot contain more than 20 characters
+                            </span>
+                        </div>
+
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Email Address</h6>
+                            </label>
+                            <input class="form-control" type="email" formControlName="email"
+                                placeholder="Enter a valid email address">
+                            <span class="text-danger"
+                                *ngIf="(signupFormControl.email.touched || submitted) && signupFormControl.email.errors?.required">
+                                Email is required
+                            </span>
+                            <span class="text-danger"
+                                *ngIf="signupFormControl.email.touched && signupFormControl.email.errors?.email">
+                                Enter a valid email address
+                            </span>
+                        </div>
+
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Password</h6>
+                            </label>
+                            <input class="form-control" type="password" formControlName="password"
+                                placeholder="Enter password">
+                            <span class="text-danger"
+                                *ngIf="(signupFormControl.password.touched || submitted) && signupFormControl.password.errors?.required">
+                                Password is required
+                            </span>
+                            <span class="text-danger"
+                                *ngIf="signupFormControl.password.touched && signupFormControl.password.errors?.invalidPassword">
+                                Password should have minimum 8 characters, at least 1 uppercase letter, 1 lowercase
+                                letter and 1 number
+                            </span>
+                        </div>
+
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Confirm Password</h6>
+                            </label>
+                            <input class="form-control" type="password" formControlName="confirmPassword"
+                                placeholder="re-enter password">
+                            <span class="text-danger"
+                                *ngIf="(signupFormControl.confirmPassword.touched || submitted) && signupFormControl.confirmPassword.errors?.required">
+                                Confirm Password is required
+                            </span>
+                            <span class="text-danger"
+                                *ngIf="signupFormControl.confirmPassword.touched && signupFormControl.confirmPassword.errors?.passwordMismatch">
+                                passwords does not match
+                            </span>
+                        </div>
+
+                        <div class="row mb-3 px-3">
+                            <button type="submit" 
+                                    [disabled]="!signupForm.valid"
+                                    class="btn btn-blue text-center">SignUp
+                            </button>
+                        </div>
+                    </form>
+                    <div class="row mb-4 px-3">
+                        <small class="font-weight-bold">
+                            Already have an account?
+                            <a class="text-danger" routerLink="/login">Login</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-popup-modal 
+    [modalObject]="modalObject"
+    [display]="display"
+    (displayChange)="displayChange($event)">
+</app-popup-modal>
+
+
