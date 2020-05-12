@@ -3,27 +3,30 @@ import { CommonModule } from '@angular/common';
 import { MenuComponent } from './menu/menu.component';
 import { RouterModule } from '@angular/router';
 import { PopupModalComponent } from './popup-modal/popup-modal.component';
-import { ModalData } from './modal-data';
 import { VerifyLinkModalComponent } from './verify-link-modal/verify-link-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { LoaderComponent } from './loader/loader.component';
+import { NgSpinnerModule } from 'ng-bootstrap-spinner';
 
 
 @NgModule({
   declarations: [
     MenuComponent,
     PopupModalComponent,
-    VerifyLinkModalComponent
+    VerifyLinkModalComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgSpinnerModule
   ],
   exports: [
     MenuComponent,
     PopupModalComponent,
-    VerifyLinkModalComponent
+    VerifyLinkModalComponent,
+    LoaderComponent
   ]
 })
 export class SharedModule { }

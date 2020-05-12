@@ -1,5 +1,6 @@
 package com.example.springsocial.service;
 
+import com.example.springsocial.exception.BadRequestException;
 import com.example.springsocial.model.AuthProvider;
 import com.example.springsocial.model.ConfirmationToken;
 import com.example.springsocial.model.User;
@@ -44,6 +45,16 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
+
+    public boolean changePassword(String email, String password) {
+        User user = findByEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        if(save(user) != null) {
+            return true;
+        }
+        return false;
+    }
+
     public ConfirmationToken createToken(User user) {
         ConfirmationToken confirmationToken = new ConfirmationToken(user);
         return confirmationTokenRepository.save(confirmationToken);

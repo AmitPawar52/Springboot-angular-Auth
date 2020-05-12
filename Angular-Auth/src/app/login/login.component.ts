@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { GOOGLE_AUTH_URI, FACEBOOK_AUTH_URI, GITHUB_AUTH_URI } from '../constants';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { OauthLoginService } from '../services/oauth-login.service';
-import { AngularBootstrapToastsService } from 'angular-bootstrap-toasts';
 import { isObject } from 'util';
+import { NotificationService } from '../services/notification.service';
+import { Constants } from '../constants';
 
 @Component({
   selector: 'app-login',
@@ -23,8 +23,7 @@ export class LoginComponent implements OnInit {
   constructor(private router:Router, 
               private fb: FormBuilder,
               private oauthService: OauthLoginService,
-              private route: ActivatedRoute,
-              private toastService: AngularBootstrapToastsService) { }
+              private notifyService: NotificationService) { }
   
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -44,36 +43,32 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
-  fbRedirect() {
-    window.location.href = FACEBOOK_AUTH_URI;
+  getLogo() {
+    return Constants.LOGO_URL;
   }
-  googleRedirect() {
-    window.location.href = GOOGLE_AUTH_URI;
+  getAddon() {
+    return Constants.ADDON_URL;
   }
+
   onSubmit() {
     let user = this.loginForm.value;
     this.oauthService.basicJwtAuthLogin(user).subscribe(
       response => {
-        this.createToasts("login success", "logged in successfully");
+        console.log(response)
+        this.notifyService.showToast("logged in successfully!", 'success');
         this.invalidLogin = false;
         this.saveCredentials();
         this.router.navigate(['home'])
       },
       error => {
         this.invalidLogin = true;
-        if(isObject(error.error)){
+        if(error.error.message) {
           this.errorMessage = error.error.message;
         } else {
-          this.errorMessage = error.error;
+          this.errorMessage = "Unknown error occured, try after some time..";
         }
       }
     )
-  }
-  createToasts(title, message) {
-    this.toastService.changeDefaultTitle(title);
-    this.toastService.changeDefaultText(message);
-    this.toastService.changeDefaultDuration(5000);
-    this.toastService.showSimpleToast({ showProgressLine: true });
   }
 
   toggleValue(event) {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OauthLoginService } from '../services/oauth-login.service';
 import { Router } from '@angular/router';
-import { AngularBootstrapToastsService } from 'angular-bootstrap-toasts';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
     selector: 'logout',
@@ -11,18 +11,11 @@ export class LogoutComponent implements OnInit {
 
     constructor(private authService: OauthLoginService, 
                 private router: Router,
-                private toastService: AngularBootstrapToastsService) {}
+                private notifyService: NotificationService) {}
     
     ngOnInit() {
         this.authService.removeToken();
-        this.createToasts("Logout Success", "You are logged out successfully!");
+        this.notifyService.showToast('logged out successfully', 'info');
         this.router.navigate(['login']);
-    }
-
-    createToasts(title, message) {
-        this.toastService.changeDefaultTitle(title);
-        this.toastService.changeDefaultText(message);
-        this.toastService.changeDefaultDuration(5000);
-        this.toastService.showSimpleToast({ showProgressLine: true });
     }
 }

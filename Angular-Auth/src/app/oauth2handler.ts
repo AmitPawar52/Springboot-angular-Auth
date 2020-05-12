@@ -16,10 +16,21 @@ export class Oauth2Handler implements OnInit {
     {}
     
     ngOnInit() {
-        let token = this.route.snapshot.queryParams['token'];
-        this.loginService.setAuthToken('Bearer ' + token);
-        this.createToasts("Login Success", "You are logged in successfully");
-        this.router.navigate(['home']);
+        let token: string = null;
+        let error: string = null;
+        this.route.queryParams.subscribe(params => {
+            token = params['token'];
+            error = params['error']
+            if(error) {
+                this.createToasts("Error", error);
+                console.log(error)
+                this.router.navigate(['login']);
+            } else {
+                this.loginService.setAuthToken('Bearer ' + token);
+                this.createToasts("Login Success", "You are logged in successfully");
+                this.router.navigate(['home']);
+            } 
+        });
     }
 
     createToasts(title, message) {

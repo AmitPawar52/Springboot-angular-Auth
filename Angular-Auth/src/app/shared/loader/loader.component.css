@@ -1,0 +1,21 @@
+.loading-spinner{    
+    background-color: #0e01141f;
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    height: max-content;
+    align-items: center;
+    justify-content: center;
+    display: grid;
+}
+ 
+.loading-spinner ng-spinner{
+    align-self: end;
+}
+ 
+.loading-message{
+    text-align: center;
+    align-self: start;
+    font-weight: bold;
+}

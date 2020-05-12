@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FACEBOOK_AUTH_URI, GOOGLE_AUTH_URI } from '../constants';
-import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { OauthLoginService } from '../services/oauth-login.service';
-import { AngularBootstrapToastsService } from 'angular-bootstrap-toasts';
 import { CustomValidationService } from '../services/validation/custom-validation.service';
+import { Constants } from '../constants';
 
 @Component({
   selector: 'app-signup',
@@ -18,10 +16,9 @@ export class SignupComponent implements OnInit {
   errorMessage: string;
   signupForm: FormGroup;
   
-  constructor(private router: Router,
+  constructor(
     private fb: FormBuilder,
     private oauthService: OauthLoginService,
-    private toastService: AngularBootstrapToastsService,
     private customValidator: CustomValidationService) {
   }
 
@@ -46,12 +43,14 @@ export class SignupComponent implements OnInit {
     return this.signupForm.controls;
   }
 
-  fbRedirect() {
-    window.location.href = FACEBOOK_AUTH_URI;
+  getLogo() {
+    return Constants.LOGO_URL;
   }
-  googleRedirect() {
-    window.location.href = GOOGLE_AUTH_URI;
+
+  getAddon() {
+    return Constants.ADDON_URL;
   }
+
   onSubmit() {
     let user = {
       name: this.signupForm.value.name,

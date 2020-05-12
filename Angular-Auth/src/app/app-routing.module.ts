@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
@@ -7,6 +7,9 @@ import { LogoutComponent } from './logout/logout.component';
 import { RouteGuardService } from './services/route-guard.service';
 import { HomeComponent } from './home/home/home.component';
 import { Home_Module_routes } from './home/home-routing.module';
+import { NotFoundComponent } from './not-found.component';
+
+export const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,6 +22,7 @@ const routes: Routes = [
     canActivate: [RouteGuardService] 
   },
   { path: 'oauth2/redirect', component: Oauth2Handler },
+  { path: 'externalRedirect', canActivate: [externalUrlProvider], component: NotFoundComponent },
   { path: 'logout', component: LogoutComponent }
 ];
 

@@ -41,4 +41,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return UserPrincipal.create(user);
     }
+
+    @Transactional
+    public boolean isAccountVerified(String email) {
+        boolean isVerified = userRepository.findEmailVerifiedByEmail(email);
+        return isVerified;
+    }
 }

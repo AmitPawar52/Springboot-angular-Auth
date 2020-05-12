@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { API_BASE_URL } from '../constants';
+import { Constants } from '../constants';
 
 export const TOKEN = 'token';
 
@@ -13,7 +13,7 @@ export class OauthLoginService {
   constructor(private http: HttpClient) { }
 
   basicJwtAuthLogin(user) {
-    return this.http.post<any>(API_BASE_URL + '/auth/login', user).pipe(
+    return this.http.post<any>(Constants.API_BASE_URL + '/auth/login', user).pipe(
       map(
         data => {
           localStorage.setItem(TOKEN, `Bearer ${data.accessToken}`)
@@ -24,15 +24,23 @@ export class OauthLoginService {
   }
 
   userSignup(user) {
-    return this.http.post<any>(API_BASE_URL + '/auth/signup', user);
+    return this.http.post<any>(Constants.API_BASE_URL + '/auth/signup', user);
   }
 
   getVerificationLink(email) {
-    return this.http.post<any>(API_BASE_URL + '/auth/send-email', email);
+    return this.http.post<any>(Constants.API_BASE_URL + '/auth/send-email', email);
   }
 
-  getOtp(user) {
-    return this.http.post<any>(API_BASE_URL + '/auth/generate-otp', user);
+  getOtp(body) {
+    return this.http.post<any>(Constants.API_BASE_URL + '/auth/generate-otp', body);
+  }
+
+  submitOtp(body) {
+    return this.http.post<any>(Constants.API_BASE_URL + '/auth/validate-otp', body);
+  }
+
+  resetPassword(body) {
+    return this.http.post<any>(Constants.API_BASE_URL + '/auth/reset-password', body);
   }
 
   getAuthToken() {
@@ -44,7 +52,10 @@ export class OauthLoginService {
   }
   isUserLoggedIn() {
     let token = localStorage.getItem(TOKEN)
-    return !(token === null)
+    if(token === null || token.includes('undefined'))
+      return false;
+    else
+      return true;
   }
   removeToken() {
     localStorage.removeItem(TOKEN)

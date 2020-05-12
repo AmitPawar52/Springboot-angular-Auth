@@ -1,6 +1,7 @@
 package com.example.springsocial.controller;
 
 import com.example.springsocial.exception.BadRequestException;
+import com.example.springsocial.exception.UserNotVerifiedException;
 import com.example.springsocial.model.ConfirmationToken;
 import com.example.springsocial.model.User;
 import com.example.springsocial.payload.ApiResponse;
@@ -8,17 +9,19 @@ import com.example.springsocial.payload.AuthResponse;
 import com.example.springsocial.payload.LoginRequest;
 import com.example.springsocial.payload.SignUpRequest;
 import com.example.springsocial.payload.VerifyEmailRequest;
+import com.example.springsocial.security.CustomUserDetailsService;
 import com.example.springsocial.security.TokenProvider;
 import com.example.springsocial.service.AuthService;
 import com.example.springsocial.service.EmailSenderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -40,6 +43,9 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private CustomUserDetailsService UserDetailsService;
+
+    @Autowired
     private TokenProvider tokenProvider;
 
     @Autowired
@@ -48,12 +54,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-        User user = authService.findByEmail(loginRequest.getEmail());
-        if (user.getEmailVerified() == false) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Email id is not verified");
+        UserDetails user = UserDetailsService.loadUserByUsername(loginRequest.getEmail());
+        
+        if (UserDetailsService.isAccountVerified(user.getUsername()) == false) {
+            throw new UserNotVerifiedException(user.getUsername() + " is not verified");
         }
-
+        
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
@@ -119,5 +125,18 @@ public class AuthController {
         } else {
             throw new BadRequestException("Email is not associated with any account");
         }
-    }    
+    }  
+    
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody LoginRequest loginRequest) {
+        if(authService.existsByEmail(loginRequest.getEmail())){
+            if(authService.changePassword(loginRequest.getEmail(), loginRequest.getPassword())) {
+                return ResponseEntity.ok(new ApiResponse(true, "Password changed successfully"));
+            } else {
+                throw new BadRequestException("Unable to change password. Try again!");
+            }
+        } else {
+            throw new BadRequestException("User not found with this email id");
+        }
+    }
 }
