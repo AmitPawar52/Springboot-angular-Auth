@@ -42,7 +42,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private CustomUserDetailsService UserDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Autowired
     private TokenProvider tokenProvider;
@@ -53,9 +53,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-        UserDetails user = UserDetailsService.loadUserByUsername(loginRequest.getEmail());
+        UserDetails user = userDetailsService.loadUserByUsername(loginRequest.getEmail());
         
-        if (UserDetailsService.isAccountVerified(user.getUsername()) == false) {
+        if (userDetailsService.isAccountVerified(user.getUsername()) == false) {
             throw new UserNotVerifiedException(user.getUsername() + " is not verified");
         }
         
@@ -113,7 +113,7 @@ public class AuthController {
     public ResponseEntity<?> sendVerificationMail(@Valid @RequestBody 
                         VerifyEmailRequest emailRequest) {
         if(authService.existsByEmail(emailRequest.getEmail())){
-            if(authService.findByEmail(emailRequest.getEmail()).getEmailVerified()){
+            if(userDetailsService.isAccountVerified(emailRequest.getEmail())){
                 throw new BadRequestException("Email is already verified");
             } else {
                 User user = authService.findByEmail(emailRequest.getEmail());
