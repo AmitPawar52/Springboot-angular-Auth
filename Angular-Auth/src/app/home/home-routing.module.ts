@@ -6,8 +6,8 @@ import { SubjectListComponent } from './subject-list/subject-list.component';
 import { RouteGuardService } from '../services/route-guard.service';
 
 export const Home_Module_routes: Routes = [
-    { path: 'profile', component: ProfileComponent, canActivate: [RouteGuardService] },
-    { path: 'subjects', component: SubjectListComponent, canActivate: [RouteGuardService] }
+    { path: 'profile', component: ProfileComponent }, //, canActivate: [RouteGuardService]
+    { path: 'subjects', component: SubjectListComponent }
 ]
 
 @NgModule({

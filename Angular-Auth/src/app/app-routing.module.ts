@@ -4,7 +4,6 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { Oauth2Handler } from './oauth2handler';
 import { LogoutComponent } from './logout/logout.component';
-import { RouteGuardService } from './services/route-guard.service';
 import { HomeComponent } from './home/home/home.component';
 import { Home_Module_routes } from './home/home-routing.module';
 import { NotFoundComponent } from './not-found.component';
@@ -18,8 +17,8 @@ const routes: Routes = [
   { 
     path: 'home', 
     component: HomeComponent,
-    children: Home_Module_routes,
-    canActivate: [RouteGuardService] 
+    children: Home_Module_routes
+    // canActivate: [RouteGuardService] 
   },
   { path: 'oauth2/redirect', component: Oauth2Handler },
   { path: 'externalRedirect', canActivate: [externalUrlProvider], component: NotFoundComponent },

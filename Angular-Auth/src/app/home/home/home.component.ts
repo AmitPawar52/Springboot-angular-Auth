@@ -8,18 +8,17 @@ import { ProfileDataService, User } from 'src/app/services/data/profile-data.ser
 })
 export class HomeComponent implements OnInit {
 
-  user: User;
+  user: User = new User(1, "amit", "amit@gmail.com", "", true);
   onParentLoaded: boolean = false;
   constructor(private userService: ProfileDataService) { }
 
   ngOnInit() {
-    this.userService.getUserInfo().subscribe(
-      response => {
-        this.user = response;
-        console.log(response);
-        this.onParentLoaded = true;
-      }
-    )
+    // this.userService.getUserInfo().subscribe(response => {
+    //     this.user = response;
+    //     console.log(response);
+    //     this.onParentLoaded = true;
+    //   },
+    //   error => { console.log(error) }
+    // )
   }
-
 }

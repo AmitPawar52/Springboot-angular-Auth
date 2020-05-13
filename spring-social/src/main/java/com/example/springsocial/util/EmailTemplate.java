@@ -7,14 +7,14 @@ import java.util.Map;
 
 public class EmailTemplate {
     
-    private String templateId;
+    // private String templateId;
 	 
 	private String template;
  
-	private Map<String, String> replacementParams;
+	// private Map<String, String> replacementParams;
  
 	public EmailTemplate(String templateId) {
-		this.templateId = templateId;
+		// this.templateId = templateId;
 		try {
 			this.template = loadTemplate(templateId);
 		} catch (Exception e) {

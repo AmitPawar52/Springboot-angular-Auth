@@ -8,20 +8,24 @@ import { ProfileDataService, User } from '../../services/data/profile-data.servi
 })
 export class ProfileComponent implements OnInit {
 
-  userInfo: User
+  isEditable: boolean = false;
+  userInfo: User = new User(121, 'Amit P', 'amit@gmail.com', 'assets/images/11.jpg', true);
 
   constructor(private profileService: ProfileDataService) { }
 
   ngOnInit() {
-    this.profileService.getUserInfo().subscribe(
-      response => {
+    this.profileService.getUserInfo().subscribe(response => {
         this.userInfo = response
         console.log(response)
       },
-      error => {
-        console.log(error);
-      }
+      error => { console.log(error); }
     )
   }
+  allowEditing() {
+    this.isEditable = true;
+  }
 
+  saveProfile() {
+    this.isEditable = false;
+  }
 }

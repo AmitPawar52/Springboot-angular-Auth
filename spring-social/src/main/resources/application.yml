@@ -55,8 +55,8 @@ spring:
             connectiontimeout: 5000
             timeout: 5000
             writetimeout: 5000
-      username: amitpawar5252@gmail.com
-      password: Amit@10466
+      username: amitpawar
+      password: password
 app:
   auth:
     tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
